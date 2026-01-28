@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LRG - Lumina Retail Group</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #f1f5f9;
+            color: #0f172a;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        header {
+            background: #1e293b;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: #1e293b;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .btn-login {
+            padding: 0.6rem 1.5rem;
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-login:hover {
+            background: #0284c7;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        /* Welcome Section */
+        .welcome {
+            margin-bottom: 3rem;
+        }
+
+        .welcome h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Section Header */
+        .section-header {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.25rem;
+        }
+
+        .section-line {
+            width: 50px;
+            height: 3px;
+            background: #0ea5e9;
+            margin-bottom: 1rem;
+        }
+
+        /* Featured Product */
+        .featured-product {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 4rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .featured-image {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        .featured-image-text {
+            font-size: 3rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.1);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .featured-info {
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .featured-info h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #0f172a;
+        }
+
+        .featured-info p {
+            color: #64748b;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .featured-price {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #0ea5e9;
+            margin-bottom: 2rem;
+        }
+
+        .featured-price span {
+            font-size: 1rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            padding: 1rem 2rem;
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary:hover {
+            background: #0284c7;
+        }
+
+        /* Products Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.2s;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .product-card:hover {
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .product-card-image {
+            height: 240px;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .product-card-image-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.15);
+            text-align: center;
+        }
+
+        .badge-preorder {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #dc2626;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-available {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #16a34a;
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .product-content {
+            padding: 1.5rem;
+        }
+
+        .product-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #0f172a;
+        }
+
+        .product-description {
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0ea5e9;
+        }
+
+        .product-price span {
+            font-size: 0.85rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* Login Page */
+        .login-page {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+        }
+
+        .login-page.active {
+            display: flex;
+        }
+
+        .login-left {
+            flex: 1;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-left::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"%3E%3Crect fill="%231e293b" width="1200" height="800"/%3E%3C/svg%3E');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.5;
+        }
+
+        .login-branding {
+            position: relative;
+            z-index: 1;
+        }
+
+        .login-logo-large {
+            font-size: 4rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .login-tagline {
+            font-size: 1.5rem;
+            color: #94a3b8;
+            font-weight: 400;
+        }
+
+        .login-right {
+            flex: 1;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 420px;
+        }
+
+        .login-box h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-box p {
+            color: #64748b;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn-discord {
+            width: 100%;
+            padding: 1rem;
+            background: #5865F2;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .btn-discord:hover {
+            background: #4752C4;
+        }
+
+        .btn-discord svg {
+            width: 24px;
+            height: 24px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 1.5rem;
+            color: #0ea5e9;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .back-link:hover {
+            color: #0284c7;
+        }
+
+        /* Product Detail Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            padding: 2rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .product-modal {
+            background: white;
+            border-radius: 8px;
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow: hidden;
+            position: relative;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.1);
+            border: none;
+            color: #64748b;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 0, 0, 0.2);
+            color: #0f172a;
+        }
+
+        .modal-image {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+        }
+
+        .modal-image-text {
+            font-size: 3rem;
+            font-weight: 900;
+            color: rgba(255, 255, 255, 0.1);
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .modal-info {
+            padding: 3rem;
+            overflow-y: auto;
+        }
+
+        .modal-info h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #0f172a;
+        }
+
+        .modal-price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0ea5e9;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-price span {
+            font-size: 1rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        .modal-description {
+            color: #64748b;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+
+        .modal-features {
+            margin-bottom: 2rem;
+        }
+
+        .modal-features h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #0f172a;
+        }
+
+        .modal-features ul {
+            list-style: none;
+        }
+
+        .modal-features li {
+            color: #64748b;
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .modal-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #0ea5e9;
+            font-weight: 700;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-secondary {
+            padding: 0.9rem 1.5rem;
+            background: #f1f5f9;
+            color: #0f172a;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+
+        .btn-buy {
+            flex: 1;
+            padding: 0.9rem 1.5rem;
+            background: #0ea5e9;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-buy:hover {
+            background: #0284c7;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .featured-product,
+            .product-modal {
+                grid-template-columns: 1fr;
+            }
+
+            .login-left {
+                display: none;
+            }
+
+            nav {
+                padding: 1rem;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .welcome h1 {
+                font-size: 1.5rem;
+            }
+
+            .featured-info {
+                padding: 2rem 1.5rem;
+            }
+
+            .modal-info {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo">
+                <div class="logo-icon">LRG</div>
+                <span class="logo-text">Store</span>
+            </a>
+            <button class="btn-login" onclick="openLogin()">Log In</button>
+        </nav>
+    </header>
+
+    <main class="container" id="mainContent">
+        <div class="welcome">
+            <h1>Welcome,</h1>
+        </div>
+
+        <section>
+            <div class="section-header">
+                <h2 class="section-title">Featured Product</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="featured-product">
+                <div class="featured-image">
+                    <div class="featured-image-text">BASIC<br>BUNDLE</div>
+                </div>
+                <div class="featured-info">
+                    <h2>Basic Bundle</h2>
+                    <p>Essential retail starter pack designed for small operations. Everything you need to get started with your store.</p>
+                    <div class="featured-price">350 <span>Robux</span></div>
+                    <button class="btn-primary" onclick="openProductModal('basic-bundle')">Get More Info</button>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-header">
+                <h2 class="section-title">Our Products</h2>
+                <div class="section-line"></div>
+            </div>
+
+            <div class="products-grid">
+                <!-- Available Product -->
+                <div class="product-card" onclick="openProductModal('nametags')">
+                    <div class="product-card-image">
+                        <span class="badge-available">Available Now</span>
+                        <div class="product-card-image-text">LRG<br>NAMETAGS</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">LRG Nametags</h3>
+                        <p class="product-description">Professional employee identification badges with premium design.</p>
+                        <div class="product-footer">
+                            <div class="product-price">65 <span>Robux</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pre-order Product 1 -->
+                <div class="product-card" onclick="openProductModal('preorder1')">
+                    <div class="product-card-image">
+                        <span class="badge-preorder">Pre-Order</span>
+                        <div class="product-card-image-text">COMING<br>SOON</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Product Name</h3>
+                        <p class="product-description">Description for upcoming product. Available soon for pre-order.</p>
+                        <div class="product-footer">
+                            <div class="product-price">000 <span>Robux</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pre-order Product 2 -->
+                <div class="product-card" onclick="openProductModal('preorder2')">
+                    <div class="product-card-image">
+                        <span class="badge-preorder">Pre-Order</span>
+                        <div class="product-card-image-text">COMING<br>SOON</div>
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-title">Product Name</h3>
+                        <p class="product-description">Description for upcoming product. Available soon for pre-order.</p>
+                        <div class="product-footer">
+                            <div class="product-price">000 <span>Robux</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Login Page -->
+    <div class="login-page" id="loginPage">
+        <div class="login-left">
+            <div class="login-branding">
+                <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect fill='%23ffffff' width='400' height='300'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='Arial' font-size='80' font-weight='900' fill='%231e293b'%3ELRG%3C/text%3E%3C/svg%3E" alt="LRG Logo" style="max-width: 300px; margin-bottom: 2rem; border-radius: 8px;">
+                <div class="login-logo-large">Lumina Retail Group</div>
+                <div class="login-tagline">Taking charge in the Ro-Retail Industry</div>
+            </div>
+        </div>
+        <div class="login-right">
+            <div class="login-box">
+                <h2>Welcome Back</h2>
+                <p>Login to access your dashboard</p>
+                <button class="btn-discord" onclick="loginWithDiscord()">
+                    <svg viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515a.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0a12.64 12.64 0 0 0-.617-1.25a.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057a19.9 19.9 0 0 0 5.993 3.03a.078.078 0 0 0 .084-.028a14.09 14.09 0 0 0 1.226-1.994a.076.076 0 0 0-.041-.106a13.107 13.107 0 0 1-1.872-.892a.077.077 0 0 1-.008-.128a10.2 10.2 0 0 0 .372-.292a.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127a12.299 12.299 0 0 1-1.873.892a.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028a19.839 19.839 0 0 0 6.002-3.03a.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.956-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419c0-1.333.955-2.419 2.157-2.419c1.21 0 2.176 1.096 2.157 2.42c0 1.333-.946 2.418-2.157 2.418z"/>
+                    </svg>
+                    Login with Discord
+                </button>
+                <a href="#" class="back-link" onclick="closeLogin(); return false;">← Back to Website</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Detail Modal -->
+    <div class="modal-overlay" id="productModal">
+        <div class="product-modal">
+            <button class="modal-close" onclick="closeProductModal()">×</button>
+            <div class="modal-image">
+                <div class="modal-image-text" id="modalImageText">PRODUCT</div>
+            </div>
+            <div class="modal-info">
+                <h2 id="modalTitle">Product Name</h2>
+                <div class="modal-price" id="modalPrice">000 <span>Robux</span></div>
+                <p class="modal-description" id="modalDescription">Product description goes here.</p>
+                <div class="modal-features">
+                    <h3>Features Include:</h3>
+                    <ul id="modalFeatures">
+                        <li>Feature 1</li>
+                        <li>Feature 2</li>
+                        <li>Feature 3</li>
+                    </ul>
+                </div>
+                <div class="modal-actions">
+                    <button class="btn-secondary" onclick="closeProductModal()">Close</button>
+                    <button class="btn-buy" id="modalBuyBtn" onclick="handleBuy()">Login to Purchase</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================
+        // DISCORD OAUTH CONFIGURATION
+        // ============================================
+        const DISCORD_CLIENT_ID = 'YOUR_DISCORD_CLIENT_ID';
+        const DISCORD_REDIRECT_URI = 'http://localhost:3000/callback';
+        const DISCORD_OAUTH_URL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT_URI)}&response_type=code&scope=identify%20email`;
+
+        // Product data
+        const products = {
+            'basic-bundle': {
+                title: 'Basic Bundle',
+                price: '350',
+                imageText: 'BASIC<br>BUNDLE',
+                description: 'Essential retail starter pack designed for small operations. Everything you need to get started with your store efficiently.',
+                features: [
+                    'Self-checkout system',
+                    'Basic POS terminal',
+                    'Employee management tools',
+                    'Inventory tracking',
+                    'Customer receipt system'
+                ],
+                available: false
+            },
+            'nametags': {
+                title: 'LRG Nametags',
+                price: '65',
+                imageText: 'LRG<br>NAMETAGS',
+                description: 'Professional employee identification badges designed specifically for Lumina Retail Group operations. Premium quality with clean design.',
+                features: [
+                    'Premium professional design',
+                    'Customizable employee information',
+                    'High-quality textures',
+                    'Easy to implement',
+                    'Perfect for retail operations'
+                ],
+                available: true,
+                gamepassId: '1638392029'
+            },
+            'preorder1': {
+                title: 'Product Name',
+                price: '000',
+                imageText: 'COMING<br>SOON',
+                description: 'This product is coming soon. Pre-order now to be the first to get it when it launches.',
+                features: [
+                    'Feature coming soon',
+                    'More details to be announced',
+                    'Stay tuned for updates'
+                ],
+                available: false
+            },
+            'preorder2': {
+                title: 'Product Name',
+                price: '000',
+                imageText: 'COMING<br>SOON',
+                description: 'This product is coming soon. Pre-order now to be the first to get it when it launches.',
+                features: [
+                    'Feature coming soon',
+                    'More details to be announced',
+                    'Stay tuned for updates'
+                ],
+                available: false
+            }
+        };
+
+        let currentProduct = null;
+
+        // Login functions
+        function openLogin() {
+            document.getElementById('loginPage').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLogin() {
+            document.getElementById('loginPage').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function loginWithDiscord() {
+            if (DISCORD_CLIENT_ID === 'YOUR_DISCORD_CLIENT_ID') {
+                alert('Please configure your Discord OAuth credentials!\n\nReplace DISCORD_CLIENT_ID and DISCORD_REDIRECT_URI in the code.');
+                return;
+            }
+            window.location.href = DISCORD_OAUTH_URL;
+        }
+
+        // Product modal functions
+        function openProductModal(productId) {
+            currentProduct = products[productId];
+            if (!currentProduct) return;
+
+            document.getElementById('modalTitle').textContent = currentProduct.title;
+            document.getElementById('modalPrice').innerHTML = `${currentProduct.price} <span>Robux</span>`;
+            document.getElementById('modalImageText').innerHTML = currentProduct.imageText;
+            document.getElementById('modalDescription').textContent = currentProduct.description;
+            
+            const featuresList = document.getElementById('modalFeatures');
+            featuresList.innerHTML = currentProduct.features.map(f => `<li>${f}</li>`).join('');
+            
+            const buyBtn = document.getElementById('modalBuyBtn');
+            if (currentProduct.available) {
+                buyBtn.textContent = 'Buy Now';
+                buyBtn.onclick = () => buyProduct(currentProduct);
+            } else {
+                buyBtn.textContent = 'Pre-Order (Coming Soon)';
+                buyBtn.onclick = () => alert('This product is not yet available for purchase. Check back soon!');
+            }
+            
+            document.getElementById('productModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+            currentProduct = null;
+        }
+
+        function handleBuy() {
+            if (currentProduct && currentProduct.available) {
+                buyProduct(currentProduct);
+            } else {
+                openLogin();
+            }
+        }
+
+        function buyProduct(product) {
+            if (product.gamepassId) {
+                // Open Roblox gamepass purchase page
+                window.open(`https://www.roblox.com/game-pass/${product.gamepassId}`, '_blank');
+            } else {
+                alert('Purchase system not yet configured for this product.');
+            }
+        }
+
+        // Close modals on overlay click
+        document.getElementById('productModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeProductModal();
+            }
+        });
+
+        // Close modals on ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeLogin();
+                closeProductModal();
+            }
+        });
+
+        // OAuth callback handling
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            
+            if (code) {
+                console.log('Discord OAuth Code received:', code);
+                alert('Discord login successful!\n\nYour backend would now exchange this code for an access token.');
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        });
+    </script>
+</body>
+</html>
