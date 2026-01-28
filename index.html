@@ -780,10 +780,10 @@
 
     <script>
         // ============================================
-        // DISCORD OAUTH CONFIGURATION
+        // DISCORD OAUTH CONFIGURATION (FIXED FOR NETLIFY)
         // ============================================
         const DISCORD_CLIENT_ID = '1457730077046603907';
-        const DISCORD_REDIRECT_URI = 'http://localhost:3000/callback';
+        const DISCORD_REDIRECT_URI = 'https://v4luminaretailgroup.netlify.app/';
         const DISCORD_OAUTH_URL = `https://discord.com/api/oauth2/authorize?client_id=${DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT_URI)}&response_type=code&scope=identify%20email`;
 
         // Product data
@@ -843,6 +843,8 @@
         };
 
         let currentProduct = null;
+        let isLoggedIn = false;
+        let discordUsername = null;
 
         // Login functions
         function openLogin() {
@@ -857,10 +859,25 @@
 
         function loginWithDiscord() {
             if (DISCORD_CLIENT_ID === 'YOUR_DISCORD_CLIENT_ID') {
-                alert('Please configure your Discord OAuth credentials!\n\nReplace DISCORD_CLIENT_ID and DISCORD_REDIRECT_URI in the code.');
+                alert('Please configure your Discord OAuth credentials!\n\nReplace DISCORD_CLIENT_ID in the Discord Developer Portal.');
                 return;
             }
+            // Redirect to Discord OAuth
             window.location.href = DISCORD_OAUTH_URL;
+        }
+
+        function setLoggedIn(username) {
+            isLoggedIn = true;
+            discordUsername = username;
+            document.querySelector('.btn-login').textContent = `Welcome, ${username}`;
+            document.querySelector('.welcome h1').textContent = `Welcome, ${username}`;
+            
+            // Update all buy buttons for logged in users
+            const buyBtn = document.getElementById('modalBuyBtn');
+            if (currentProduct && currentProduct.available) {
+                buyBtn.textContent = 'Buy Now';
+                buyBtn.onclick = () => buyProduct(currentProduct);
+            }
         }
 
         // Product modal functions
@@ -877,9 +894,12 @@
             featuresList.innerHTML = currentProduct.features.map(f => `<li>${f}</li>`).join('');
             
             const buyBtn = document.getElementById('modalBuyBtn');
-            if (currentProduct.available) {
+            if (currentProduct.available && isLoggedIn) {
                 buyBtn.textContent = 'Buy Now';
                 buyBtn.onclick = () => buyProduct(currentProduct);
+            } else if (currentProduct.available && !isLoggedIn) {
+                buyBtn.textContent = 'Login to Purchase';
+                buyBtn.onclick = () => openLogin();
             } else {
                 buyBtn.textContent = 'Pre-Order (Coming Soon)';
                 buyBtn.onclick = () => alert('This product is not yet available for purchase. Check back soon!');
@@ -897,9 +917,13 @@
 
         function handleBuy() {
             if (currentProduct && currentProduct.available) {
-                buyProduct(currentProduct);
+                if (isLoggedIn) {
+                    buyProduct(currentProduct);
+                } else {
+                    openLogin();
+                }
             } else {
-                openLogin();
+                alert('This product is not yet available for purchase. Check back soon!');
             }
         }
 
@@ -907,8 +931,43 @@
             if (product.gamepassId) {
                 // Open Roblox gamepass purchase page
                 window.open(`https://www.roblox.com/game-pass/${product.gamepassId}`, '_blank');
+                alert('You are being redirected to Roblox to complete your purchase!');
             } else {
                 alert('Purchase system not yet configured for this product.');
+            }
+        }
+
+        // OAuth callback handling
+        function handleOAuthCallback() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const code = urlParams.get('code');
+            const error = urlParams.get('error');
+            const errorDescription = urlParams.get('error_description');
+            
+            // Remove OAuth parameters from URL
+            if (code || error) {
+                const cleanUrl = window.location.origin + window.location.pathname;
+                window.history.replaceState({}, document.title, cleanUrl);
+            }
+            
+            if (error) {
+                console.error('Discord OAuth Error:', error, errorDescription);
+                alert(`Login failed: ${error}\n${errorDescription || ''}`);
+                return;
+            }
+            
+            if (code) {
+                console.log('Discord OAuth Code received:', code);
+                
+                // In a real app, you would send this code to your backend server
+                // to exchange it for an access token and fetch user data
+                
+                // For demo purposes, simulate a successful login
+                setTimeout(() => {
+                    setLoggedIn('DiscordUser');
+                    closeLogin();
+                    alert('Login successful! Welcome to Lumina Retail Group Store.');
+                }, 500);
             }
         }
 
@@ -927,15 +986,14 @@
             }
         });
 
-        // OAuth callback handling
-        window.addEventListener('load', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const code = urlParams.get('code');
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            handleOAuthCallback();
             
-            if (code) {
-                console.log('Discord OAuth Code received:', code);
-                alert('Discord login successful!\n\nYour backend would now exchange this code for an access token.');
-                window.history.replaceState({}, document.title, window.location.pathname);
+            // Check for login status in localStorage (for demo)
+            const savedUsername = localStorage.getItem('lrg_username');
+            if (savedUsername) {
+                setLoggedIn(savedUsername);
             }
         });
     </script>
